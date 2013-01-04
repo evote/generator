@@ -11,12 +11,5 @@ if os.environ["QUERY_STRING"] == '':
 elif os.environ["QUERY_STRING"] == 'json':
 	print 'Content-Type: application/json'
 	print ''
-	a = json.loads(data)
-	print a
-	b = yaml.dump(a)
-	print b
-	c = generator(b)
-	print c
-	d = yaml.load(c)
-	print d
-	e = json.dumps(d)
+	print json.dumps(yaml.load(generator(yaml.dump(json.loads(data)))))
+
