@@ -77,13 +77,13 @@ YAML::Node& Generator::on_generate_votes ( const YAML::Node & msg, YAML::Node & 
 YAML::Node& Generator::on_count_votes ( const YAML::Node& msg, YAML::Node& ret )
 {
 	ret["type"] = "votes_counted";
-	uint O = msg["data"][1].as<uint>();
-	Integer p = msg["data"][1].as<Integer>();
-	Integer k = msg["data"][2].as<Integer>();
-	Integer G = msg["data"][3].as<Integer>();
-	Integer P = msg["data"][4].as<Integer>();
+	Integer p = msg["data"][0].as<Integer>();
+	Integer k = msg["data"][1].as<Integer>();
+	Integer G = msg["data"][2].as<Integer>();
+	Integer P = msg["data"][3].as<Integer>();
 	Integer v = ( Integer::Call ( mpz_powm, G, -k, p ) * P ) % p;
 	Integer o = 1;
+	uint i = 0;
 	while ( v != Integer ( 1 ) )
 	{
 		uint c = 0;
@@ -93,11 +93,11 @@ YAML::Node& Generator::on_count_votes ( const YAML::Node& msg, YAML::Node& ret )
 			++c;
 			v /= o;
 		}
-		ret["data"].push_back ( c );
-	}
-	for ( uint i = ret["data"].size(); i < O; ++i )
-	{
-		ret["data"].push_back ( 0 );
+		if ( c )
+		{
+			ret["data"][i] = c;
+		}
+		++i;
 	}
 	return ret;
 }
