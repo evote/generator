@@ -59,7 +59,7 @@ YAML::Node& Generator::on_generate_votes ( const YAML::Node & msg, YAML::Node & 
 			YAML::Node option;
 			P = Integer::NextPrime ( P );
 			Integer o = ( P * Integer::Call ( mpz_powm, g, k * t, p ) ) % p;
-			Integer s = ( ( o - t * gy ) * Integer::Call ( mpz_powm, y, Integer ( -1 ), p - Integer ( 1 ) ) ) % p - Integer ( 1 );
+			Integer s = ( ( o - t * gy ) * Integer::Call ( mpz_powm, y, Integer ( -1 ), p - Integer ( 1 ) ) ) % ( p - Integer ( 1 ) );
 			option[0] = gt;
 			option[1] = o;
 			option[2] = gy;
