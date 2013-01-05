@@ -31,12 +31,13 @@ const std::string Generator::operator() ( const std::string & message )
 
 YAML::Node& Generator::on_generate_votes ( const YAML::Node & msg, YAML::Node & ret )
 {
-	ret["type"] = "votes_generated";
+	ret["type"] = "votes_generated";	
 	uint V = msg["data"][0].as<uint>();
 	uint O = msg["data"][1].as<uint>();
 	Integer p = msg["data"][2].as<Integer>();
 	Integer g = msg["data"][3].as<Integer>();
 	Integer k = Integer::Random ( p / 2, p );
+	ret["data"][0][0] = k;
 	std::set<Integer> T;
 	while ( T.size() < V )
 	{
@@ -66,7 +67,8 @@ YAML::Node& Generator::on_generate_votes ( const YAML::Node & msg, YAML::Node & 
 			option[3] = s;
 			card.push_back ( option );
 		}
-		ret["data"].push_back ( card );
+		ret["data"][0][1].push_back( gt );
+		ret["data"][1].push_back ( card );
 	}
 	return ret;
 }
