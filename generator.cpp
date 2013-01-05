@@ -77,7 +77,7 @@ YAML::Node& Generator::on_generate_votes ( const YAML::Node & msg, YAML::Node & 
 YAML::Node& Generator::on_count_votes ( const YAML::Node& msg, YAML::Node& ret )
 {
 	ret["type"] = "votes_counted";
-	uint O = msg["data"][1].as<unit>();
+	uint O = msg["data"][1].as<uint>();
 	Integer p = msg["data"][1].as<Integer>();
 	Integer k = msg["data"][2].as<Integer>();
 	Integer G = msg["data"][3].as<Integer>();
