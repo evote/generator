@@ -23,4 +23,5 @@ class Generator
 	private:
 		const std::map<std::string, std::function<YAML::Node & ( const YAML::Node &, YAML::Node& ) >> on;
 		YAML::Node& on_generate_votes ( const YAML::Node &, YAML::Node& );
+		YAML::Node& on_count_votes ( const YAML::Node &, YAML::Node& );
 };

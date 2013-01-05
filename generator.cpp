@@ -4,6 +4,7 @@ Generator::Generator ( ) :
 	on (
 	{
 		{"generate_votes", std::bind ( &Generator::on_generate_votes, std::ref ( *this ), std::placeholders::_1, std::placeholders::_2 ) },
+		{"count_votes", std::bind ( &Generator::on_count_votes, std::ref ( *this ), std::placeholders::_1, std::placeholders::_2 ) },
 	} )
 {
 }
@@ -73,4 +74,31 @@ YAML::Node& Generator::on_generate_votes ( const YAML::Node & msg, YAML::Node & 
 	return ret;
 }
 
+YAML::Node& Generator::on_count_votes ( const YAML::Node& msg, YAML::Node& ret )
+{
+	ret["type"] = "votes_counted";
+	uint O = msg["data"][1].as<unit>();
+	Integer p = msg["data"][1].as<Integer>();
+	Integer k = msg["data"][2].as<Integer>();
+	Integer G = msg["data"][3].as<Integer>();
+	Integer P = msg["data"][4].as<Integer>();
+	Integer v = ( Integer::Call ( mpz_powm, G, -k, p ) * P ) % p;
+	Integer o = 1;
+	while ( v != Integer ( 1 ) )
+	{
+		uint c = 0;
+		o = o.NextPrime ( o );
+		while ( ( v % o ) == Integer() and v != Integer ( 1 ) )
+		{
+			++c;
+			v /= o;
+		}
+		ret["data"].push_back ( c );
+	}
+	for ( uint i = ret["data"].size(); i < O; ++i )
+	{
+		ret["data"].push_back ( 0 );
+	}
+	return ret;
+}
 
